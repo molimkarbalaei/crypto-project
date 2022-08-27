@@ -1,11 +1,37 @@
-import react from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./context/ThemeContext";
+import { Route, Routes } from "react-router-dom";
+import Home from "./routes/Home";
+import Signin from "./routes/Signin";
+import Signup from "./routes/Signup";
+import Account from "./routes/Account";
+import axios from "axios";
 
 function App() {
+  // using axios to make request to the api:
+  // comback as a emprt array:
+  const [coins, setCoins] = useState([]);
+
+  const url =
+    " https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true";
+  //we wanna use useEffect to api call:
+  useEffect(() => {
+    axios.get(url).then((response) => {
+      setCoins(response.data);
+      console.log(response.data);
+    });
+  }, [url]);
+
   return (
     <ThemeProvider>
       <Navbar />
+      <Routes>
+        <Route path="/" element={<Home coins={coins} />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/account" element={<Account />} />
+      </Routes>
     </ThemeProvider>
   );
 }
@@ -27,3 +53,11 @@ export default App;
 // **nav bar:
 // it is in app.js
 // because we want to use it in all pages not only in home page
+// mobile menu + navbar + sign in + sign up
+
+// create file name coin search:
+//
+
+//*** using router 6 */
+// using axios to make request to the api
+// we need to install axios
