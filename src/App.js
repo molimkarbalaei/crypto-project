@@ -7,6 +7,7 @@ import Signin from "./routes/Signin";
 import Signup from "./routes/Signup";
 import Account from "./routes/Account";
 import axios from "axios";
+import CoinPage from "./routes/CoinPage";
 
 function App() {
   // using axios to make request to the api:
@@ -31,6 +32,9 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/coin/:coinId" element={<CoinPage />}>
+          <Route path=":coinId" />
+        </Route>
       </Routes>
     </ThemeProvider>
   );
@@ -61,3 +65,5 @@ export default App;
 //*** using router 6 */
 // using axios to make request to the api
 // we need to install axios
+
+// add dynamic routes: so when we click we will have different routes.
