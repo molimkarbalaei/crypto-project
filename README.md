@@ -22,7 +22,9 @@ in src:
 
   1. count page
   1. coin page
+     - coin description
   1. home page
+     - trending coins
   1. sign in page (login page)
   1. sign up page (register page)
 
