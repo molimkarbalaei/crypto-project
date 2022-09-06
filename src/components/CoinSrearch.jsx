@@ -5,8 +5,8 @@ import React from "react";
 import { useState } from "react";
 
 import CoinItem from "./CoinItem";
-// import Skeleton from "react-loading-skeleton";
-// import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function CoinSrearch({ coins }) {
   // styling search box:
@@ -28,45 +28,49 @@ export default function CoinSrearch({ coins }) {
       </div>
       {/* we would have our table */}
 
-      <table className="w-full border-collapse text-center ">
-        <thead>
-          <tr className="border-b ">
-            {/*  if there is no coin show skeleton other wise show coins */}
-            {/* !coin ? (skeleton ) :( hame row ha) */}
-            {/* {!coins ? (
+      {coins.length ? (
+        <table className="w-full border-collapse text-center ">
+          <thead>
+            <tr className="border-b ">
+              {/*  if there is no coin show skeleton other wise show coins */}
+              {/* !coin ? (skeleton ) :( hame row ha) */}
+              {/* {!coins ? (
               <Skeleton count={100} height={50} />
             ) : (
               <> */}
-            <th></th>
-            <th className="px-4">#</th>
-            <th className="text-left">Coin</th>
-            <th></th>
-            <th>Price</th>
-            <th>24h</th>
-            <th className="hidden md:table-cell">24h Volume</th>
-            <th className="hidden sm:table-cell">Mkt</th>
-            <th>Last 7 Days</th>
-            {/* </>
+              <th></th>
+              <th className="px-4">#</th>
+              <th className="text-left">Coin</th>
+              <th></th>
+              <th>Price</th>
+              <th>24h</th>
+              <th className="hidden md:table-cell">24h Volume</th>
+              <th className="hidden sm:table-cell">Mkt</th>
+              <th>Last 7 Days</th>
+              {/* </>
             )} */}
-          </tr>
-        </thead>
-        <tbody>
-          {coins
-            .filter((value) => {
-              if (searchText === "") {
-                return value;
-              } else if (
-                // we want to put everything lowercase
-                value.name.toLowerCase().includes(searchText.toLowerCase())
-              ) {
-                return value;
-              }
-            })
-            .map((coin) => (
-              <CoinItem key={coin.id} coin={coin} />
-            ))}
-        </tbody>
-      </table>
+            </tr>
+          </thead>
+          <tbody>
+            {coins
+              .filter((value) => {
+                if (searchText === "") {
+                  return value;
+                } else if (
+                  // we want to put everything lowercase
+                  value.name.toLowerCase().includes(searchText.toLowerCase())
+                ) {
+                  return value;
+                }
+              })
+              .map((coin) => (
+                <CoinItem key={coin.id} coin={coin} />
+              ))}
+          </tbody>
+        </table>
+      ) : (
+        <Skeleton count={100} height={5} />
+      )}
     </div>
   );
 }
