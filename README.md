@@ -1,6 +1,6 @@
 # 📣 **Summary**
 
-This application (**Crypto website**) was built using _React_ (Custom Hooks, Context), React-Router-Dom, useParams, Light/Dark Theme, Tailwind, React-icons, API, Hosting and more! Authenticate using firebase and firestore so we can save user specific data and that data is retrieved using a custom hook.
+This application (**Crypto website**) was built using _React_ (Custom Hooks, Context), React-Router-Dom, useParams, Light/Dark Theme, Tailwind,Dynamic Routes, React-icons, API, Hosting and more! Authenticate using firebase and firestore so we can save user specific data and that data is retrieved using a custom hook.
 
 ---
 
