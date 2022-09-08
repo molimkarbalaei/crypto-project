@@ -1,17 +1,21 @@
 // add dynamic routes: so when we click we will have different routes.
+//1- we have to use useParms hook to get the id of the coin we clicked on.
+// so we can use it to fetch the data of that coin.
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { FaTwitter, FaFacebook, FaGithub, FaReddit } from "react-icons/fa";
 import DOMPurify from "dompurify";
+import { useParams } from "react-router-dom";
 
 function CoinPage() {
   // it takes object as a parameter
   const [coin, setCoin] = useState({});
+  // 2- add useParms hook to get the id of the coin we clicked on:
+  const params = useParams();
 
-  const url =
-    "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&sparkline=true";
+  const url = `https://api.coingecko.com/api/v3/coins/${params.coinId}?localization=false&sparkline=true`;
 
   useEffect(() => {
     axios.get(url).then((response) => {
