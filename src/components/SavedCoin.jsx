@@ -3,8 +3,36 @@ import { Link } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 // some logics that connect with firebase
 
+// for saved coins we have to connect with firebase **** 3 lines:
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { UserAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+
 const SavedCoin = () => {
   const [coins, setCoins] = useState([]);
+  const { user } = UserAuth();
+
+  // we want to have useeffect when ever an email changes:
+  useEffect(() => {
+    onSnapshot(doc(db, "users", `${user?.email}`), (doc) => {
+      setCoins(doc.data()?.watchList);
+    });
+  }, [user?.email]);
+
+  // to remove from saved coins:
+
+  const coinPath = doc(db, "users", `${user?.email}`);
+  const deletCoin = async (passedId) => {
+    try {
+      const result = coins.filter((item) => item.id !== passedId);
+      await updateDoc(coinPath, {
+        watchList: result,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -24,8 +52,8 @@ const SavedCoin = () => {
               <th className="text-left">Remove</th>
             </tr>
           </thead>
-          <tbbody>
-            {coins.map((coin) => {
+          <tbody>
+            {coins?.map((coin) => (
               <tr className="h-[60px] overflow-hidden" key={coin.id}>
                 <td>{coin?.rank}</td>
                 {/* we want to click and go to that coin: */}
@@ -43,11 +71,14 @@ const SavedCoin = () => {
                   </Link>
                 </td>
                 <td className="pl-8">
-                  <AiOutlineClose className="curser-ponter" />
+                  <AiOutlineClose
+                    onClick={() => deletCoin(coin.id)}
+                    className="curser-ponter"
+                  />
                 </td>
-              </tr>;
-            })}
-          </tbbody>
+              </tr>
+            ))}
+          </tbody>
         </table>
       )}
     </div>
