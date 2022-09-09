@@ -84,7 +84,7 @@ export default function Navbar() {
           </li>
           <li onClick={handleNav} className="border-b py-6">
             {/* Account would be protected route: */}
-            <Link to="/">Account</Link>
+            <Link to="/account">Account</Link>
           </li>
           <li className=" py-6">
             <ThemeToggle />
