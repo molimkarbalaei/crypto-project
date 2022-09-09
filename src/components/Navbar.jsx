@@ -2,15 +2,33 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+// after all edition now we can add UseAuth:
+import { UserAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   //we use useState to toggle the menu
   const [nav, setNav] = useState(false);
 
+  // for logout:  later we add***
+  const { user, logout } = UserAuth();
+  const navigate = useNavigate();
+
   // arrrow function to toggle the menu
   const handleNav = () => {
     // put setnav to ture:
     setNav(!nav);
+  };
+
+  // for working of submit button:
+  // create a function to handle logout:
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   return (
@@ -22,18 +40,30 @@ export default function Navbar() {
       <div className="hidden md:block">
         <ThemeToggle />
       </div>
+
       {/* signin and signup links: */}
-      <div className="hidden md:block">
-        <Link to="/signin" className="p-4 hover:text-accent">
-          Sign In
-        </Link>
-        <Link
-          to="/signup"
-          className="bg-button text-btnText px-5 py-2 ml-2 rounded-2xl shadow-lg hover:shadow-2xl"
-        >
-          Sign Up
-        </Link>
-      </div>
+
+      {user?.email ? (
+        <div>
+          <Link to="/account" className="p-4">
+            Account
+          </Link>
+          <button onClick={handleSignOut}>SignOut</button>
+        </div>
+      ) : (
+        <div className="hidden md:block">
+          <Link to="/signin" className="p-4 hover:text-accent">
+            Sign In
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-button text-btnText px-5 py-2 ml-2 rounded-2xl shadow-lg hover:shadow-2xl"
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
+
       {/* *****menu icon: this is icon un 3 khate*/}
       <div onClick={handleNav} className="block md:hidden cursor-pointer z-10">
         {/* if nav is true: */}
