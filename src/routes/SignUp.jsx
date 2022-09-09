@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import React from "react";
 import { useState } from "react";
 import { AiFillLock, AiOutlineMail } from "react-icons/ai";
