@@ -1,17 +1,46 @@
 // we devide the components into two parts
 
 import React from "react";
-import { AiOutlineStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Sparklines, SparklinesLine } from "react-sparklines";
+// for fill the start we use these 4 lines:
+import { UserAuth } from "../context/AuthContext";
+import { db } from "../firebase";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { useState } from "react";
 
 const CoinItem = ({ coin }) => {
+  const [savedCoin, setSavedCoin] = useState(false);
+  const { user } = UserAuth();
+  // **** we want to save the coins:
+
+  // file path we save in in the firebase as a specific data:
+  const coinPath = doc(db, "users", `${user?.email}`);
+  const saveCoin = async () => {
+    if (user?.email) {
+      setSavedCoin(true);
+      await updateDoc(coinPath, {
+        watchList: arrayUnion({
+          id: coin.id,
+          name: coin.name,
+          image: coin.image,
+          rank: coin.market_cap_rank,
+          symbol: coin.symbol,
+        }),
+      });
+    } else {
+      alert("you need to login first");
+    }
+  };
+
   return (
     //tr = table row
     <tr className="h-[80px] border-b overflow-hidden">
       {/* avali stare dovomi cap rank sevomi namade coin va esmesh  */}
-      <td>
-        <AiOutlineStar />
+      <td onClick={saveCoin} className="cursor-pointer">
+        {/* add dynamic start fillig: */}
+        {savedCoin ? <AiFillStar /> : <AiOutlineStar />}
       </td>
       <td>{coin.market_cap_rank}</td>
       <td>
