@@ -23,11 +23,12 @@ function Signup() {
     e.preventDefault();
     // call set error to empty string:
     setError("");
+
     try {
       // now we need to call the signup function:
       await signUp(email, password);
       // if there is no error then navigate to home page:
-      navigate("/");
+      navigate("/account");
     } catch {
       setError(e.message);
       console.log(e.message);
